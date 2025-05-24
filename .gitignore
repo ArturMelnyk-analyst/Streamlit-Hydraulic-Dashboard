@@ -1,0 +1,11 @@
+# === Folders to Ignore ===
+data/*.txt
+
+
+# === Files to Ignore ===
+*.csv
+*.xlsx
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store
+.env
