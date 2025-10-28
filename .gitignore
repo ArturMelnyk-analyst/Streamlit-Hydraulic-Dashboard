@@ -1,11 +1,47 @@
-# === Folders to Ignore ===
-data/*.txt
-
-
-# === Files to Ignore ===
-*.csv
-*.xlsx
+# --- Notebooks & caches ---
 .ipynb_checkpoints/
 __pycache__/
+*.pyc
+
+# --- OS / editor junk ---
 .DS_Store
+Thumbs.db
+
+# --- Environments ---
 .env
+.venv/
+env/
+
+# =========================
+# DATA LAYOUT RULES
+# =========================
+
+# 1) RAW — never commit raw sensor .txt files
+data/raw/*.txt
+
+# 2) PROCESSED — don't commit heavy artifacts
+data/processed/**
+!data/processed/.gitkeep
+
+# 3) TESTING buckets
+# Ignore everything by default
+data/testing_input/**
+data/testing_output/**
+data/testing_sample/**
+
+# 4) Keep structure (.gitkeep)
+!data/testing_input/.gitkeep
+!data/testing_output/.gitkeep
+!data/testing_sample/.gitkeep
+
+# 5) Allow all curated CSVs (small test/demo files)
+!data/testing_input/*.csv
+!data/testing_output/*.csv
+!data/testing_sample/*.csv
+
+# 6) METADATA — keep all docs & CSVs (no heavy binaries expected)
+!data/metadata/**
+!data/metadata/.gitkeep
+
+# 7) Keep .gitkeep everywhere
+!data/**/.gitkeep
