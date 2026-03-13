@@ -3,15 +3,15 @@ utils/data_io.py — Hydraulic dataset loaders
 
 Folders used (relative to repo root):
 - data/raw/        : original .txt sensor files (+ profile.txt if you keep it there)
-- data/metadata/   : non-sensor files (profile.txt, docs, feature_index.csv, etc.)
+- data/metadata/   : non-sensor files (profile.txt, docs, features_index.csv, etc.)
 - data/processed/  : saved merged tables (X_features.parquet, y_labels.parquet)
 
 This module:
-- loads 19 sensor files (whitespace or ';' delims)
+- loads 17 sensor files (whitespace or ';' delims)
 - loads profile.txt from metadata/ OR raw/
 - standardizes column names <SENSOR>_t1..tN
 - builds (X, y) and saves them
-- optionally writes metadata/feature_index.csv
+- optionally writes metadata/features_index.csv
 """
 
 from pathlib import Path
@@ -99,7 +99,7 @@ def load_all_sensors() -> Tuple[Dict[str, pd.DataFrame], List[str]]:
         print(f"Skipped non-sensor files: {', '.join(skipped)}")
     return frames, order
 
-def build_feature_matrix(sensor_frames: Dict[str, pd.DataFrame],
+def build_features_matrix(sensor_frames: Dict[str, pd.DataFrame],
                          sensor_order: List[str],
                          labels_df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -118,25 +118,33 @@ def build_feature_matrix(sensor_frames: Dict[str, pd.DataFrame],
     if y.shape[1] == 5:
         y.columns = label_names
 
-    _ok(f"Built feature matrix X | shape={X.shape}")
+    _ok(f"Built features matrix X | shape={X.shape}")
     _ok(f"Prepared labels y       | shape={y.shape} | columns={list(y.columns)}")
     return X, y
 
 def save_processed(X: pd.DataFrame, y: pd.DataFrame) -> Tuple[Path, Path]:
     """
-    Save X and y to data/processed (Parquet). CSV fallback if Parquet unavailable.
+    Save X and y to data/processed as Parquet.
+    These are the canonical frozen artifacts consumed by 02_eda, 03_feature_engineering, 04_modeling.
+
+    Returns:
+        (path_to_X, path_to_y)
     """
     PROC_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Canonical artifact names for downstream notebooks
     x_pq = PROC_DIR / "X_features.parquet"
     y_pq = PROC_DIR / "y_labels.parquet"
+
     try:
         X.to_parquet(x_pq, index=False)
         y.to_parquet(y_pq, index=False)
         _ok(f"Saved X -> {x_pq.relative_to(ROOT_DIR)}")
         _ok(f"Saved y -> {y_pq.relative_to(ROOT_DIR)}")
         return x_pq, y_pq
+
     except Exception as e:
-        _ok(f"Parquet not available ({e}); saving CSV instead.")
+        _ok(f"Parquet not available ({e}); saving CSV instead as fallback.")
         x_csv = PROC_DIR / "X_features.csv"
         y_csv = PROC_DIR / "y_labels.csv"
         X.to_csv(x_csv, index=False)
@@ -145,12 +153,22 @@ def save_processed(X: pd.DataFrame, y: pd.DataFrame) -> Tuple[Path, Path]:
         _ok(f"Saved y -> {y_csv.relative_to(ROOT_DIR)}")
         return x_csv, y_csv
 
-def write_feature_index(X: pd.DataFrame) -> Path:
+def write_features_index(X: pd.DataFrame) -> Path:
     """
-    Create a simple metadata table: column -> (sensor, group).
-    Saved to data/metadata/feature_index.csv
+    Generate a column dictionary for downstream analysis and modeling.
+
+    Output columns:
+        - column : exact column name in X
+        - sensor : base sensor code (e.g. 'PS1', 'TS2', 'VS1', 'SE', ...)
+        - group  : high-level functional group
+                   ('pressure', 'flow', 'temperature', 'cooler', 'vibration', 'electrical', 'other')
+
+    This file becomes data/metadata/features_index.csv
+    and is consumed by 02_eda, 03_feature_engineering, and 04_modeling.
     """
+
     META_DIR.mkdir(parents=True, exist_ok=True)
+
     sensor_groups = {
         "pressure":   [f"PS{i}" for i in range(1, 7)],
         "flow":       ["FS1", "FS2"],
@@ -159,14 +177,27 @@ def write_feature_index(X: pd.DataFrame) -> Path:
         "vibration":  ["VS1"],
         "electrical": ["SE", "EPS1"],
     }
+
     rows = []
     for col in X.columns:
-        sensor = col.split("_", 1)[0]
-        group = next((g for g, ss in sensor_groups.items() if sensor in ss), "unknown")
-        rows.append({"column": col, "sensor": sensor, "group": group})
+        sensor = col.split("_", 1)[0]  # e.g. 'PS1' from 'PS1_t3'
+
+        # map sensor -> functional group
+        group = next(
+            (g for g, sensors in sensor_groups.items() if sensor in sensors),
+            "other"
+        )
+
+        rows.append({
+            "column": col,
+            "sensor": sensor,
+            "group": group
+        })
 
     df = pd.DataFrame(rows)
-    out = META_DIR / "feature_index.csv"
+
+    out = META_DIR / "features_index.csv"
     df.to_csv(out, index=False)
+
     _ok(f"Wrote metadata -> {out.relative_to(ROOT_DIR)}; rows={len(df)}")
     return out
