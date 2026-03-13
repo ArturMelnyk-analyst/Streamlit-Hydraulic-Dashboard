@@ -1,47 +1,81 @@
-# --- Notebooks & caches ---
+# ======================================
+# NOTEBOOKS & PYTHON INTERNALS
+# ======================================
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
 
-# --- OS / editor junk ---
+# ======================================
+# OS / EDITOR JUNK
+# ======================================
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
+*.code-workspace
 
-# --- Environments ---
+# ======================================
+# ENVIRONMENTS
+# ======================================
 .env
 .venv/
 env/
 
-# =========================
+# ======================================
 # DATA LAYOUT RULES
-# =========================
+# ======================================
 
-# 1) RAW — never commit raw sensor .txt files
+# 1) RAW — ignore large raw sensor .txt files
+#    (Folder structure is allowed; .gitkeep will be tracked)
 data/raw/*.txt
+!data/raw/.gitkeep
 
-# 2) PROCESSED — don't commit heavy artifacts
+# 2) PROCESSED — runtime outputs (never commit)
 data/processed/**
 !data/processed/.gitkeep
 
-# 3) TESTING buckets
-# Ignore everything by default
-data/testing_input/**
-data/testing_output/**
-data/testing_sample/**
-
-# 4) Keep structure (.gitkeep)
+# 3) TESTING — allowed and tracked when populated
+!data/testing_input/**
+!data/testing_output/**
+!data/testing_sample/**
 !data/testing_input/.gitkeep
 !data/testing_output/.gitkeep
 !data/testing_sample/.gitkeep
 
-# 5) Allow all curated CSVs (small test/demo files)
-!data/testing_input/*.csv
-!data/testing_output/*.csv
-!data/testing_sample/*.csv
-
-# 6) METADATA — keep all docs & CSVs (no heavy binaries expected)
+# 4) METADATA — track lightweight structured outputs
 !data/metadata/**
 !data/metadata/.gitkeep
 
-# 7) Keep .gitkeep everywhere
+# 5) Keep folder scaffolding (.gitkeep)
 !data/**/.gitkeep
+
+# ======================================
+# MODELS & ARTIFACTS
+# ======================================
+
+# 6) MODELS — tracked in this project because they are part of the
+# portfolio deliverable and downstream app integration.
+!models/**
+!models/.gitkeep
+
+# 7) ARTIFACTS — track lightweight JSON / Markdown artifacts generated
+# by the modeling pipeline.
+!artifacts/**
+!artifacts/.gitkeep
+
+# ======================================
+# IMAGES & VISUAL OUTPUT
+# ======================================
+# Track EDA images because they are part of the portfolio-ready outputs
+# produced by Notebook 02.
+!images/eda/**
+!images/eda/.gitkeep
+
+# ======================================
+# LOGS & TEMP FILES
+# ======================================
+*.log
+*.tmp
+*.temp
+*.npy
+*.npz
