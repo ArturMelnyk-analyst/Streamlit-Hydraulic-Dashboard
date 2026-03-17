@@ -1,0 +1,2 @@
+Cooler_Condition_pred,Cooler_Condition_label,Cooler_Condition_confidence,Valve_Condition_pred,Valve_Condition_label,Valve_Condition_confidence,Pump_Leakage_pred,Pump_Leakage_label,Pump_Leakage_confidence,Accumulator_Pressure_pred,Accumulator_Pressure_label,Accumulator_Pressure_confidence,Stable_Flag_pred,Stable_Flag_label,Stable_Flag_confidence
+0,0,0.9988673,3,3,0.99868816,0,0,0.99851745,3,3,0.9707939,1,1,0.99963725
