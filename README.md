@@ -1,4 +1,9 @@
 # Hydraulic Condition Monitoring
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://hydraulic-monitoring.streamlit.app)
+
+Live App: https://hydraulic-monitoring.streamlit.app
+
 ## Machine Learning Diagnostic System for Industrial Hydraulic Equipment
 
 **Author:** Artur Melnyk
