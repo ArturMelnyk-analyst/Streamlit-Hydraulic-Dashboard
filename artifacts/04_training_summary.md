@@ -1,37 +1,7 @@
-# 04 — Modeling Summary
+# 04_modeling — training summary
 
-
-## Cooler_Condition
-
-- n_classes: 3
-- accuracy: 0.9955
-- f1_macro: 0.9954
-- f1_weighted: 0.9955
-
-## Valve_Condition
-
-- n_classes: 4
-- accuracy: 0.6599
-- f1_macro: 0.5743
-- f1_weighted: 0.6472
-
-## Pump_Leakage
-
-- n_classes: 3
-- accuracy: 0.9569
-- f1_macro: 0.9486
-- f1_weighted: 0.9568
-
-## Accumulator_Pressure
-
-- n_classes: 4
-- accuracy: 0.9433
-- f1_macro: 0.9341
-- f1_weighted: 0.9427
-
-## Stable_Flag
-
-- n_classes: 2
-- accuracy: 0.9433
-- f1_macro: 0.9361
-- f1_weighted: 0.9429
+- **Cooler_Condition** → acc=0.995, F1_macro=0.995, classes=3  → saved: models/cooler_model.joblib
+- **Valve_Condition** → acc=0.714, F1_macro=0.628, classes=4  → saved: models/valve_model.joblib
+- **Pump_Leakage** → acc=0.957, F1_macro=0.949, classes=3  → saved: models/pump_model.joblib
+- **Accumulator_Pressure** → acc=0.961, F1_macro=0.954, classes=4  → saved: models/accumulator_model.joblib
+- **Stable_Flag** → acc=0.943, F1_macro=0.936, classes=2  → saved: models/stable_model.joblib
