@@ -53,7 +53,112 @@ TARGET_TO_LABEL_MAP_FILE = {
 
 
 # ============================================================
-# 2. Helpers
+# 2. UI translations
+# ============================================================
+
+TRANSLATIONS = {
+    "English": {
+        "sidebar_title": "Settings",
+        "language_label": "Language / Sprache",
+        "title": "Hydraulic Condition Monitoring Dashboard",
+        "intro": """
+Upload a **feature-engineered CSV** to generate subsystem condition predictions.
+
+This app predicts:
+- Cooler condition
+- Valve condition
+- Pump leakage
+- Accumulator pressure condition
+- Stable / unstable state
+""",
+        "engineering_note_title": "Engineering note",
+        "engineering_note": (
+            "Only visible UI text is translated. Technical target names, model artifacts, "
+            "feature names, and SHAP outputs remain in English to preserve consistency between "
+            "training and inference."
+        ),
+        "input_source": "Input Source",
+        "choose_input_method": "Choose input method",
+        "upload_csv": "Upload CSV",
+        "use_demo_sample": "Use demo sample",
+        "demo_missing": "No demo sample found at data/testing_sample/demo_case.csv",
+        "demo_loaded": "Loaded demo sample successfully.",
+        "upload_prompt": "Upload your feature-engineered CSV",
+        "csv_read_error": "Could not read the uploaded CSV.",
+        "start_info": "Choose a demo sample or upload a CSV file to begin.",
+        "empty_csv": "The provided CSV is empty.",
+        "input_preview": "Input Preview",
+        "rows": "Rows",
+        "columns": "Columns",
+        "preview_first_cols": "Preview of first 20 columns only:",
+        "schema_warning": (
+            "No canonical feature schema artifact was found. "
+            "Validation is limited, so the app assumes your CSV already matches the trained model input."
+        ),
+        "missing_cols_error": "The uploaded file is missing required feature columns.",
+        "extra_cols_warning": "The uploaded file contains extra columns. They will be ignored.",
+        "validation_passed": "Input schema validation passed.",
+        "predictions": "Predictions",
+        "download_results": "Download Results",
+        "download_predictions_only": "Download predictions only (CSV)",
+        "download_compact": "Download compact output (CSV)",
+        "prediction_failed": "Prediction failed.",
+        "asset_load_failed": "Failed to load application assets.",
+    },
+    "Deutsch": {
+        "sidebar_title": "Einstellungen",
+        "language_label": "Sprache / Language",
+        "title": "Dashboard zur Überwachung hydraulischer Systeme",
+        "intro": """
+Laden Sie eine **feature-engineerte CSV-Datei** hoch, um Zustandsvorhersagen für einzelne hydraulische Subsysteme zu erzeugen.
+
+Diese App sagt vorher:
+- Zustand des Kühlsystems
+- Zustand des Ventils
+- Pumpenleckage
+- Zustand des Akkumulatordrucks
+- Stabiler / instabiler Systemzustand
+""",
+        "engineering_note_title": "Technischer Hinweis",
+        "engineering_note": (
+            "Nur sichtbare Texte der Benutzeroberfläche werden übersetzt. Technische Zielnamen, "
+            "Modellartefakte, Feature-Namen und SHAP-Ausgaben bleiben auf Englisch, damit Training "
+            "und Inferenz konsistent bleiben."
+        ),
+        "input_source": "Eingabequelle",
+        "choose_input_method": "Eingabemethode auswählen",
+        "upload_csv": "CSV hochladen",
+        "use_demo_sample": "Demo-Beispiel verwenden",
+        "demo_missing": "Kein Demo-Beispiel unter data/testing_sample/demo_case.csv gefunden.",
+        "demo_loaded": "Demo-Beispiel erfolgreich geladen.",
+        "upload_prompt": "Feature-engineerte CSV-Datei hochladen",
+        "csv_read_error": "Die hochgeladene CSV-Datei konnte nicht gelesen werden.",
+        "start_info": "Wählen Sie ein Demo-Beispiel oder laden Sie eine CSV-Datei hoch, um zu beginnen.",
+        "empty_csv": "Die bereitgestellte CSV-Datei ist leer.",
+        "input_preview": "Eingabevorschau",
+        "rows": "Zeilen",
+        "columns": "Spalten",
+        "preview_first_cols": "Vorschau der ersten 20 Spalten:",
+        "schema_warning": (
+            "Kein kanonisches Feature-Schema-Artefakt wurde gefunden. "
+            "Die Validierung ist eingeschränkt, daher nimmt die App an, dass die CSV-Datei bereits "
+            "zur trainierten Modelleingabe passt."
+        ),
+        "missing_cols_error": "In der hochgeladenen Datei fehlen erforderliche Feature-Spalten.",
+        "extra_cols_warning": "Die hochgeladene Datei enthält zusätzliche Spalten. Diese werden ignoriert.",
+        "validation_passed": "Validierung des Eingabeschemas erfolgreich.",
+        "predictions": "Vorhersagen",
+        "download_results": "Ergebnisse herunterladen",
+        "download_predictions_only": "Nur Vorhersagen herunterladen (CSV)",
+        "download_compact": "Kompakte Ausgabe herunterladen (CSV)",
+        "prediction_failed": "Vorhersage fehlgeschlagen.",
+        "asset_load_failed": "Anwendungsartefakte konnten nicht geladen werden.",
+    },
+}
+
+
+# ============================================================
+# 3. Helpers
 # ============================================================
 
 def read_json_if_exists(path: Path) -> dict | None:
@@ -231,7 +336,23 @@ def load_label_maps() -> dict:
 
 
 # ============================================================
-# 3. Load assets
+# 4. Language selection
+# ============================================================
+
+language = st.sidebar.selectbox(
+    "Language / Sprache",
+    ["English", "Deutsch"],
+    index=0
+)
+t = TRANSLATIONS[language]
+
+st.sidebar.title(t["sidebar_title"])
+st.sidebar.markdown("---")
+st.sidebar.caption(t["engineering_note"])
+
+
+# ============================================================
+# 5. Load assets
 # ============================================================
 
 try:
@@ -239,49 +360,41 @@ try:
     label_maps = load_label_maps()
     expected_features = load_expected_feature_list()
 except Exception as e:
-    st.error("Failed to load application assets.")
+    st.error(t["asset_load_failed"])
     st.exception(e)
     st.stop()
 
 
 # ============================================================
-# 4. UI
+# 6. UI
 # ============================================================
 
-st.title("Hydraulic Condition Monitoring Dashboard")
-st.markdown(
-    """
-Upload a **feature-engineered CSV** to generate subsystem condition predictions.
+st.title(t["title"])
+st.markdown(t["intro"])
 
-This app predicts:
-- Cooler condition
-- Valve condition
-- Pump leakage
-- Accumulator pressure condition
-- Stable / unstable state
-"""
-)
+with st.expander(t["engineering_note_title"], expanded=False):
+    st.write(t["engineering_note"])
 
-st.subheader("Input Source")
+st.subheader(t["input_source"])
 
 input_mode = st.radio(
-    "Choose input method",
-    ["Upload CSV", "Use demo sample"],
+    t["choose_input_method"],
+    [t["upload_csv"], t["use_demo_sample"]],
     horizontal=True
 )
 
 input_df = None
 
-if input_mode == "Use demo sample":
+if input_mode == t["use_demo_sample"]:
     demo_df = load_demo_sample()
     if demo_df is None:
-        st.warning("No demo sample found at data/testing_sample/demo_case.csv")
+        st.warning(t["demo_missing"])
     else:
         input_df = demo_df
-        st.success("Loaded demo sample successfully.")
+        st.success(t["demo_loaded"])
 else:
     uploaded_file = st.file_uploader(
-        "Upload your feature-engineered CSV",
+        t["upload_prompt"],
         type=["csv"]
     )
 
@@ -289,29 +402,29 @@ else:
         try:
             input_df = pd.read_csv(uploaded_file)
         except Exception as e:
-            st.error("Could not read the uploaded CSV.")
+            st.error(t["csv_read_error"])
             st.exception(e)
             st.stop()
 
 
 # ============================================================
-# 5. Validation + prediction
+# 7. Validation + prediction
 # ============================================================
 
 if input_df is None:
-    st.info("Choose a demo sample or upload a CSV file to begin.")
+    st.info(t["start_info"])
     st.stop()
 
 if input_df.empty:
-    st.error("The provided CSV is empty.")
+    st.error(t["empty_csv"])
     st.stop()
 
-st.subheader("Input Preview")
-st.write(f"Rows: {input_df.shape[0]}")
-st.write(f"Columns: {input_df.shape[1]}")
+st.subheader(t["input_preview"])
+st.write(f"{t['rows']}: {input_df.shape[0]}")
+st.write(f"{t['columns']}: {input_df.shape[1]}")
 
 preview_cols = input_df.columns[:20]
-st.write("Preview of first 20 columns only:")
+st.write(t["preview_first_cols"])
 st.dataframe(input_df.loc[:, preview_cols].head(), use_container_width=True)
 
 is_valid, validated_df, missing_cols, extra_cols = validate_input_schema(
@@ -320,35 +433,32 @@ is_valid, validated_df, missing_cols, extra_cols = validate_input_schema(
 )
 
 if expected_features is None:
-    st.warning(
-        "No canonical feature schema artifact was found. "
-        "Validation is limited, so the app assumes your CSV already matches the trained model input."
-    )
+    st.warning(t["schema_warning"])
 
 if missing_cols:
-    st.error("The uploaded file is missing required feature columns.")
+    st.error(t["missing_cols_error"])
     st.code("\n".join(missing_cols[:100]))
     st.stop()
 
 if extra_cols:
-    st.warning("The uploaded file contains extra columns. They will be ignored.")
+    st.warning(t["extra_cols_warning"])
     st.code("\n".join(extra_cols[:100]))
 
-st.success("Input schema validation passed.")
+st.success(t["validation_passed"])
 
 try:
     prediction_df = build_prediction_table(validated_df, models, label_maps)
 
-    st.subheader("Predictions")
+    st.subheader(t["predictions"])
     st.dataframe(prediction_df, use_container_width=True)
 
-    st.subheader("Download Results")
+    st.subheader(t["download_results"])
 
     # 1. Predictions only (recommended)
     prediction_csv = prediction_df.to_csv(index=False).encode("utf-8")
 
     st.download_button(
-        label="Download predictions only (CSV)",
+        label=t["download_predictions_only"],
         data=prediction_csv,
         file_name="hydraulic_predictions_only.csv",
         mime="text/csv"
@@ -367,12 +477,12 @@ try:
     compact_csv = compact_output_df.to_csv(index=False).encode("utf-8")
 
     st.download_button(
-        label="Download compact output (CSV)",
+        label=t["download_compact"],
         data=compact_csv,
         file_name="hydraulic_predictions_compact.csv",
         mime="text/csv"
     )
 
 except Exception as e:
-    st.error("Prediction failed.")
+    st.error(t["prediction_failed"])
     st.exception(e)
