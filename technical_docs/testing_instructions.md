@@ -139,6 +139,27 @@ streamlit run streamlit_dashboard_app.py
 
 ---
 
+## Test 1B — Language Selector Validation
+
+### Objective
+Verify that the dashboard supports both English and German user-facing interface text without changing model behavior.
+
+### Steps
+1. Open the dashboard.
+2. Select **English** from the language selector.
+3. Confirm that the dashboard renders correctly.
+4. Select **Deutsch** from the language selector.
+5. Confirm that the visible UI text changes to German.
+6. Run the demo sample in both languages.
+
+### Expected result
+- the language selector works
+- the app remains functional in both languages
+- model target names, prediction columns, feature names, and artifact names remain unchanged
+- predictions remain identical across both language modes
+
+---
+
 ## 7. Test 2 — Demo Sample Validation
 
 ### Objective
