@@ -151,6 +151,7 @@ The dashboard:
 - decodes predictions using label maps
 - displays subsystem-level diagnostic results
 - supports English/German user-facing interface text while keeping technical model outputs in English
+- includes a lightweight UX layer with step-based workflow sections, subsystem summary cards, and collapsed schema-detail sections
 
 ## Local Validation
 
