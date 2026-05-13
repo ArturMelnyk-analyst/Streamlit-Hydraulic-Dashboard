@@ -61,6 +61,7 @@ TRANSLATIONS = {
         "sidebar_title": "Settings",
         "language_label": "Language / Sprache",
         "title": "Hydraulic Condition Monitoring Dashboard",
+        "subtitle": "Subsystem-level machine learning diagnostics for hydraulic condition monitoring.",
         "intro": """
 Upload a **feature-engineered CSV** to generate subsystem condition predictions.
 
@@ -77,7 +78,27 @@ This app predicts:
             "feature names, and SHAP outputs remain in English to preserve consistency between "
             "training and inference."
         ),
+        "sidebar_workflow_title": "Workflow",
+        "sidebar_workflow": """
+1. Select input data  
+2. Review schema  
+3. Generate predictions  
+4. Export results
+""",
         "input_source": "Input Source",
+        "step_input": "Step 1 — Select Input Data",
+        "step_preview": "Step 2 — Review Input Data",
+        "step_predictions": "Step 3 — Subsystem Diagnostic Results",
+        "step_download": "Step 4 — Export Results",
+        "dashboard_scope": (
+            "This dashboard applies trained subsystem models to feature-engineered hydraulic sensor data."
+        ),
+        "results_note": (
+            "Each row represents one hydraulic system cycle. Predictions are generated independently "
+            "for each subsystem."
+        ),
+        "quick_summary": "Quick Subsystem Summary",
+        "first_cycle_note": "Summary shown for the first input cycle.",
         "choose_input_method": "Choose input method",
         "upload_csv": "Upload CSV",
         "use_demo_sample": "Use demo sample",
@@ -96,19 +117,35 @@ This app predicts:
             "Validation is limited, so the app assumes your CSV already matches the trained model input."
         ),
         "missing_cols_error": "The uploaded file is missing required feature columns.",
-        "extra_cols_warning": "The uploaded file contains extra columns. They will be ignored.",
+        "extra_cols_warning": (
+            "The uploaded file contains columns not required by the trained model. "
+            "These columns will be ignored."
+        ),
+        "extra_cols_detected": "extra columns detected",
+        "show_extra_columns": "Show ignored extra columns",
+        "extra_columns_preview_note": "Only the first 100 ignored columns are shown below.",
+        "extra_columns_hidden_suffix": "additional extra columns are hidden.",
         "validation_passed": "Input schema validation passed.",
         "predictions": "Predictions",
         "download_results": "Download Results",
-        "download_predictions_only": "Download predictions only (CSV)",
-        "download_compact": "Download compact output (CSV)",
+        "download_predictions_only": "Download subsystem diagnostics (CSV)",
+        "download_compact": "Download compact operational report (CSV)",
         "prediction_failed": "Prediction failed.",
         "asset_load_failed": "Failed to load application assets.",
+        "confidence": "Confidence",
+        "subsystem_names": {
+            "Cooler_Condition": "Cooler",
+            "Valve_Condition": "Valve",
+            "Pump_Leakage": "Pump",
+            "Accumulator_Pressure": "Accumulator",
+            "Stable_Flag": "System Stability",
+        },
     },
     "Deutsch": {
         "sidebar_title": "Einstellungen",
         "language_label": "Sprache / Language",
         "title": "Dashboard zur Überwachung hydraulischer Systeme",
+        "subtitle": "Subsystembasierte ML-Diagnostik für die Überwachung hydraulischer Systeme.",
         "intro": """
 Laden Sie eine **feature-engineerte CSV-Datei** hoch, um Zustandsvorhersagen für einzelne hydraulische Subsysteme zu erzeugen.
 
@@ -125,7 +162,28 @@ Diese App sagt vorher:
             "Modellartefakte, Feature-Namen und SHAP-Ausgaben bleiben auf Englisch, damit Training "
             "und Inferenz konsistent bleiben."
         ),
+        "sidebar_workflow_title": "Ablauf",
+        "sidebar_workflow": """
+1. Eingabedaten auswählen  
+2. Schema prüfen  
+3. Vorhersagen erzeugen  
+4. Ergebnisse exportieren
+""",
         "input_source": "Eingabequelle",
+        "step_input": "Schritt 1 — Eingabedaten auswählen",
+        "step_preview": "Schritt 2 — Eingabedaten prüfen",
+        "step_predictions": "Schritt 3 — Diagnoseergebnisse je Subsystem",
+        "step_download": "Schritt 4 — Ergebnisse exportieren",
+        "dashboard_scope": (
+            "Dieses Dashboard wendet trainierte Subsystemmodelle auf feature-engineerte "
+            "hydraulische Sensordaten an."
+        ),
+        "results_note": (
+            "Jede Zeile entspricht einem Zyklus des hydraulischen Systems. Die Vorhersagen "
+            "werden je Subsystem unabhängig erzeugt."
+        ),
+        "quick_summary": "Kurzübersicht der Subsysteme",
+        "first_cycle_note": "Die Übersicht zeigt den ersten Eingabezyklus.",
         "choose_input_method": "Eingabemethode auswählen",
         "upload_csv": "CSV hochladen",
         "use_demo_sample": "Demo-Beispiel verwenden",
@@ -145,14 +203,29 @@ Diese App sagt vorher:
             "zur trainierten Modelleingabe passt."
         ),
         "missing_cols_error": "In der hochgeladenen Datei fehlen erforderliche Feature-Spalten.",
-        "extra_cols_warning": "Die hochgeladene Datei enthält zusätzliche Spalten. Diese werden ignoriert.",
+        "extra_cols_warning": (
+            "Die hochgeladene Datei enthält Spalten, die vom trainierten Modell nicht benötigt werden. "
+            "Diese Spalten werden ignoriert."
+        ),
+        "extra_cols_detected": "zusätzliche Spalten erkannt",
+        "show_extra_columns": "Ignorierte Zusatzspalten anzeigen",
+        "extra_columns_preview_note": "Nur die ersten 100 ignorierten Spalten werden unten angezeigt.",
+        "extra_columns_hidden_suffix": "weitere Zusatzspalten werden ausgeblendet.",
         "validation_passed": "Validierung des Eingabeschemas erfolgreich.",
         "predictions": "Vorhersagen",
         "download_results": "Ergebnisse herunterladen",
-        "download_predictions_only": "Nur Vorhersagen herunterladen (CSV)",
-        "download_compact": "Kompakte Ausgabe herunterladen (CSV)",
+        "download_predictions_only": "Subsystem-Diagnosen herunterladen (CSV)",
+        "download_compact": "Kompakten Betriebsbericht herunterladen (CSV)",
         "prediction_failed": "Vorhersage fehlgeschlagen.",
         "asset_load_failed": "Anwendungsartefakte konnten nicht geladen werden.",
+        "confidence": "Konfidenz",
+        "subsystem_names": {
+            "Cooler_Condition": "Kühlsystem",
+            "Valve_Condition": "Ventil",
+            "Pump_Leakage": "Pumpe",
+            "Accumulator_Pressure": "Akkumulator",
+            "Stable_Flag": "Systemstabilität",
+        },
     },
 }
 
@@ -308,6 +381,45 @@ def build_prediction_table(input_df: pd.DataFrame, models: dict, label_maps: dic
     return results
 
 
+def render_prediction_summary_cards(prediction_df: pd.DataFrame, t: dict) -> None:
+    """
+    Render a compact, operator-friendly summary for the first input cycle.
+
+    This function does not modify predictions. It only displays decoded labels
+    and confidence values that already exist in prediction_df.
+    """
+    if prediction_df.empty:
+        return
+
+    st.markdown(f"### {t['quick_summary']}")
+    st.caption(t["first_cycle_note"])
+
+    first_row = prediction_df.iloc[0]
+    subsystem_names = t["subsystem_names"]
+
+    cols = st.columns(len(TARGET_TO_MODEL_FILE))
+
+    for col, target in zip(cols, TARGET_TO_MODEL_FILE.keys()):
+        label_col = f"{target}_label"
+        conf_col = f"{target}_confidence"
+
+        label = first_row.get(label_col, "N/A")
+        confidence = first_row.get(conf_col, None)
+
+        confidence_text = "N/A"
+        if confidence is not None:
+            try:
+                confidence_text = f"{float(confidence):.2%}"
+            except Exception:
+                confidence_text = "N/A"
+
+        col.metric(
+            label=subsystem_names.get(target, target),
+            value=str(label),
+            delta=f"{t['confidence']}: {confidence_text}",
+        )
+
+
 @st.cache_resource
 def load_models() -> dict:
     models = {}
@@ -349,6 +461,9 @@ t = TRANSLATIONS[language]
 st.sidebar.title(t["sidebar_title"])
 st.sidebar.markdown("---")
 st.sidebar.caption(t["engineering_note"])
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"**{t['sidebar_workflow_title']}**")
+st.sidebar.markdown(t["sidebar_workflow"])
 
 
 # ============================================================
@@ -370,12 +485,14 @@ except Exception as e:
 # ============================================================
 
 st.title(t["title"])
+st.caption(t["subtitle"])
 st.markdown(t["intro"])
 
 with st.expander(t["engineering_note_title"], expanded=False):
     st.write(t["engineering_note"])
 
-st.subheader(t["input_source"])
+st.subheader(t["step_input"])
+st.write(t["dashboard_scope"])
 
 input_mode = st.radio(
     t["choose_input_method"],
@@ -419,7 +536,7 @@ if input_df.empty:
     st.error(t["empty_csv"])
     st.stop()
 
-st.subheader(t["input_preview"])
+st.subheader(t["step_preview"])
 st.write(f"{t['rows']}: {input_df.shape[0]}")
 st.write(f"{t['columns']}: {input_df.shape[1]}")
 
@@ -441,18 +558,26 @@ if missing_cols:
     st.stop()
 
 if extra_cols:
-    st.warning(t["extra_cols_warning"])
-    st.code("\n".join(extra_cols[:100]))
+    st.warning(f"{t['extra_cols_warning']} ({len(extra_cols)} {t['extra_cols_detected']})")
+
+    with st.expander(t["show_extra_columns"], expanded=False):
+        st.write(t["extra_columns_preview_note"])
+        st.code("\n".join(extra_cols[:100]))
+
+        if len(extra_cols) > 100:
+            st.caption(f"{len(extra_cols) - 100} {t['extra_columns_hidden_suffix']}")
 
 st.success(t["validation_passed"])
 
 try:
     prediction_df = build_prediction_table(validated_df, models, label_maps)
 
-    st.subheader(t["predictions"])
+    st.subheader(t["step_predictions"])
+    st.caption(t["results_note"])
     st.dataframe(prediction_df, use_container_width=True)
+    render_prediction_summary_cards(prediction_df, t)
 
-    st.subheader(t["download_results"])
+    st.subheader(t["step_download"])
 
     # 1. Predictions only (recommended)
     prediction_csv = prediction_df.to_csv(index=False).encode("utf-8")

@@ -100,11 +100,13 @@ streamlit run streamlit_dashboard_app.py
 Run the tests in the following order:
 
 1. Environment and startup test
-2. Demo sample test
-3. Uploaded CSV schema test
-4. Prediction correctness test
-5. Download/export test
-6. Regression re-check after changes
+2. Language selector validation
+3. Dashboard UX validation
+4. Demo sample test
+5. Uploaded CSV schema test
+6. Prediction correctness test
+7. Download/export test
+8. Regression re-check after changes
 
 This order helps isolate failures efficiently.
 
@@ -157,6 +159,34 @@ Verify that the dashboard supports both English and German user-facing interface
 - the app remains functional in both languages
 - model target names, prediction columns, feature names, and artifact names remain unchanged
 - predictions remain identical across both language modes
+
+---
+
+## Test 1C — Dashboard UX Validation
+
+### Objective
+Verify that the dashboard UX improvements work correctly without changing model behavior.
+
+### Steps
+1. Open the dashboard.
+2. Confirm that the dashboard displays a step-based workflow.
+3. Confirm that the language selector works in English and German.
+4. Confirm that the sidebar workflow appears only once.
+5. Load the demo sample.
+6. Confirm that extra input columns are shown inside a collapsed expander.
+7. Run predictions.
+8. Confirm that subsystem summary cards appear after prediction.
+9. Confirm that prediction values remain unchanged across language modes.
+10. Confirm that CSV downloads remain available.
+
+### Expected result
+- the dashboard displays a clear step-based workflow
+- the language selector works in English and German
+- the sidebar workflow appears only once
+- extra input columns are hidden inside a collapsed expander
+- subsystem summary cards appear after prediction
+- prediction values remain unchanged across language modes
+- CSV downloads remain available
 
 ---
 
